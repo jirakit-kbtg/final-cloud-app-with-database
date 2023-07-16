@@ -59,10 +59,35 @@
             A collapse example here:
             <div id="exam" class="collapse">
                 Click to expand elements within the collapse div
-                </div>
+            </div>
 
             -->
-
+            <div class="mt-2">
+                {% if user.is_authenticated %}
+                <div class="btn btn-primary w-100" data-toggle="collapse" href="#exam">
+                    Start Exam
+                </div>
+                {% endif %}
+                <div id="exam" class="collapse">
+                    <form id="questionform" action="point to a submit view" method="post">
+                    {% for question in course.question_set.all %}
+                        <div class="card mt-1">
+                            <div class="card-header"><h5>Q: {{question.question_text}} ({{question.grade}} point)</h5></div>
+                            <div class="card-body">
+                                {% for choice in question.choice_set.all %}
+                                    <div class="form-group">
+                                        <input type="radio" name="question_{{question.id}}" value="choice_{{choice.id}}" id="{{choice.id}}">
+                                        <label for="{{choice.id}}">{{choice.choice_text}}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-success btn-block" type="submit" value="Submit">
+                    </form>
+                </div>
+                </div>
+            </div>
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
 
             <!-- <HINT> Each example will have many questions -->
